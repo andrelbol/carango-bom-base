@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ logout }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -65,7 +65,7 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
 
-      <CustomDrawer open={open} setOpen={setOpen} />
+      <CustomDrawer open={open} setOpen={setOpen} logout={logout} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import List from "@material-ui/core/List";
 import Drawer from "@material-ui/core/Drawer";
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ open, setOpen }) => {
+export default ({ open, setOpen, logout }) => {
   
   const classes = useStyles();
   const theme = useTheme();
@@ -89,7 +89,7 @@ export default ({ open, setOpen }) => {
           <ListItemIcon><AccountCircleIcon /></ListItemIcon>
           <ListItemText primary="Entrar" />
         </ListItem>
-        <ListItem button component={Link} to="/logout" key="Sair">
+        <ListItem button component={Link} onClick={logout} to="/login" key="Sair">
           <ListItemIcon><ExitToAppIcon /></ListItemIcon>
           <ListItemText primary="Sair" />
         </ListItem>
