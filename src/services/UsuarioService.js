@@ -1,4 +1,4 @@
-import settings from '../config/settings.js';
+import settings from '../config/settings.dev.js';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
