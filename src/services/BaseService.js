@@ -23,6 +23,7 @@ export default class BaseService {
 
   _defaultFallback(response) {
     if (response.status === 403) {
+      this._tokenService.unsetSessionToken();
       window.location.replace("/login?invalidSession=true");
     } else {
       throw response;
