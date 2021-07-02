@@ -1,22 +1,16 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { Box, Button, makeStyles } from "@material-ui/core";
-import { useHistory } from "react-router";
 import React, { useEffect, useState } from "react";
-import VeiculoService from "../services/VeiculoService";
+import { useHistory } from "react-router";
+import { Box, Button } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import VeiculoService from "../../services/VeiculoService";
+import useStyles from "./styles";
 
 function ListagemVeiculos() {
   const history = useHistory();
   const [veiculoSelecionado, setVeiculoSelecionado] = useState();
   const [veiculos, setVeiculos] = useState([]);
   const classes = useStyles();
-
-  useEffect(() => carregarVeiculos(), []);
 
   function alterar() {
     history.push("/alteracao-veiculo/" + veiculoSelecionado.id);
@@ -39,6 +33,8 @@ function ListagemVeiculos() {
     { field: "ano", headerName: "Ano", flex: 1 },
     { field: "valor", headerName: "Valor", flex: 1 },
   ];
+
+  useEffect(() => carregarVeiculos(), []);
 
   return (
     <div>
