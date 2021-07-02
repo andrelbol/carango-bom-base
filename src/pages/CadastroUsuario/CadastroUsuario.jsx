@@ -1,18 +1,16 @@
-import { Button, makeStyles, TextField } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Button, TextField } from "@material-ui/core";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router";
-import useErros from "../hooks/useErros";
-import UsuarioService from "../services/UsuarioService";
-import Usuario from '../models/Usuario';
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import useStyles from './styles';
+import useErros from "../../hooks/useErros";
+import UsuarioService from "../../services/UsuarioService";
+import Usuario from '../../models/Usuario';
+import { valorNaoEhVazio, valorNaoEhVazioETemTamanhoMaiorQueQuantidade } from "../../utils/validacoes";
+
 
 function CadastroUsuario() {
-  const [usuario, setUsuario] = useState(new Usuario());
+  const [usuario, setUsuario] = useState(Usuario.vazio());
   const [noEstadoInicial, setNoEstadoInicial] = useState(true);
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
 
@@ -23,23 +21,8 @@ function CadastroUsuario() {
   const classes = useStyles();
 
   const validacoes = {
-    nome: (dado) => {
-      if (dado) {
-        return { valido: true };
-      } else {
-        return {
-          valido: false,
-          texto: "O campo nome não deve estar vazio.",
-        };
-      }
-    },
-    senha: (dado) => {
-      if(dado && dado.length > 6){
-        return {valido: true };
-      }else{
-        return {valido:false, texto: "O campo senha não deve estar vazio e deve conter mais de 3 caracteres."}
-      }
-    },
+    nome: valorNaoEhVazio,
+    senha: valorNaoEhVazioETemTamanhoMaiorQueQuantidade(6),
     confirmacaoSenha: (dado) => {
       if(dado && dado === usuario.senha){
         return {valido: true };
@@ -66,7 +49,7 @@ function CadastroUsuario() {
         event.preventDefault();
         if (possoEnviar()) {
           UsuarioService.cadastrar(usuario).then((res) => {
-            setUsuario(new Usuario());
+            setUsuario(Usuario.vazio());
             history.goBack();
           });
         }

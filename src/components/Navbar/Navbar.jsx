@@ -1,34 +1,17 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import {
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  IconButton,
+  makeStyles
+} from "@material-ui/core";
+import { Menu } from "@material-ui/icons";
 
-import CustomDrawer from "./CustomDrawer";
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  appBarShift: {
-    marginLeft: theme.drawerWidth,
-    width: `calc(100% - ${theme.drawerWidth}px)`,
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: "none",
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
+import CustomDrawer from "../CustomDrawer";
+import useStyles from "./style";
 
 export default function MiniDrawer({ logout }) {
   const classes = useStyles();
@@ -57,7 +40,7 @@ export default function MiniDrawer({ logout }) {
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography variant="h6" noWrap>
             Carango Bom
