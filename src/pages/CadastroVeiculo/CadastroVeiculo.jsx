@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import {
   Button,
-  makeStyles,
   TextField,
   FormControl,
   InputLabel,
@@ -8,19 +9,16 @@ import {
   MenuItem,
   FormHelperText,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
-import useErros from "../hooks/useErros";
-import Veiculo from "../models/Veiculo";
-import MarcaService from "../services/MarcaService";
-import VeiculoService from "../services/VeiculoService";
-import { valorNaoEhVazio, valorNaoEhVazioEMaiorQueQuantidade } from "../utils/validacoes";
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import useErros from "../../hooks/useErros";
+import Veiculo from "../../models/Veiculo";
+import MarcaService from "../../services/MarcaService";
+import VeiculoService from "../../services/VeiculoService";
+import {
+  valorNaoEhVazio,
+  valorNaoEhVazioEMaiorQueQuantidade,
+} from "../../utils/validacoes";
+import useStyles from "./styles";
 
 function CadastroVeiculo() {
   const [veiculo, setVeiculo] = useState(Veiculo.vazio());
