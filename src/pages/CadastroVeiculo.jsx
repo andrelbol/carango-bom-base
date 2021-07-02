@@ -14,6 +14,7 @@ import useErros from "../hooks/useErros";
 import Veiculo from "../models/Veiculo";
 import MarcaService from "../services/MarcaService";
 import VeiculoService from "../services/VeiculoService";
+import { valorNaoEhVazio, valorNaoEhVazioEMaiorQueQuantidade } from "../utils/validacoes";
 
 const useStyles = makeStyles(() => ({
   actions: {
@@ -32,28 +33,11 @@ function CadastroVeiculo() {
 
   const classes = useStyles();
 
-  const valorNaoEhVazio = (valor) => {
-    return !!valor
-      ? { valido: true, texto: "" }
-      : { valido: false, texto: "O campo não deve estar vazio." };
-  };
-
-  const valorNaoEhVazioEMaiorQueZero = (valor) => {
-    if (!!valor && valor > 0) {
-      return { valido: true, texto: "" };
-    } else {
-      return {
-        valido: false,
-        texto: "O campo deve estar preenchido com um valor maior que 0.",
-      };
-    }
-  };
-
   const validacoes = {
     marcaId: valorNaoEhVazio,
     modelo: valorNaoEhVazio,
-    ano: valorNaoEhVazioEMaiorQueZero,
-    valor: valorNaoEhVazioEMaiorQueZero,
+    ano: valorNaoEhVazioEMaiorQueQuantidade(0),
+    valor: valorNaoEhVazioEMaiorQueQuantidade(0),
   };
 
   const [erros, validarCampos, possoEnviar] = useErros(validacoes);
