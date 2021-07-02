@@ -31,6 +31,9 @@ function CadastroVeiculo() {
 
   const classes = useStyles();
 
+  const marcaService = new MarcaService();
+  const veiculoService = new VeiculoService();
+
   const validacoes = {
     marcaId: valorNaoEhVazio,
     modelo: valorNaoEhVazio,
@@ -51,11 +54,11 @@ function CadastroVeiculo() {
 
   useEffect(() => {
     if (id) {
-      VeiculoService.consultar(id).then((v) => setVeiculo(v));
+      veiculoService.consultar(id).then((v) => setVeiculo(v));
       setNoEstadoInicial(false);
     }
 
-    MarcaService.listar().then((listaMarcas) => setMarcas(listaMarcas));
+    marcaService.listar().then((listaMarcas) => setMarcas(listaMarcas));
   }, [id]);
 
   return (
@@ -64,11 +67,11 @@ function CadastroVeiculo() {
         event.preventDefault();
         if (possoEnviar()) {
           if (id) {
-            VeiculoService.alterar(veiculo).then((res) => {
+            veiculoService.alterar(veiculo).then((res) => {
               history.goBack();
             });
           } else {
-            VeiculoService.cadastrar(veiculo).then((res) => {
+            veiculoService.cadastrar(veiculo).then((res) => {
               setVeiculo(Veiculo.vazio());
               history.goBack();
             });

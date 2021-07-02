@@ -6,7 +6,6 @@ import {
   CssBaseline,
   Typography,
   IconButton,
-  makeStyles
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 

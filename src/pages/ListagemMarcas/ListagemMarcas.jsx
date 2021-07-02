@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Box, Button, Fab, makeStyles } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 
 import MarcaService from "../../services/MarcaService";
@@ -13,23 +13,25 @@ function ListagemMarcas() {
   const [marcaSelecionada, setMarcaSelecionada] = useState();
   const classes = useStyles();
   const history = useHistory();
+  const marcaService = new MarcaService();
 
   function alterar() {
     history.push("/alteracao-marca/" + marcaSelecionada.id);
   }
 
   function excluir() {
-    MarcaService.excluir(marcaSelecionada).then(() => {
+    marcaService.excluir(marcaSelecionada).then(() => {
       setMarcaSelecionada(null);
       carregarMarcas();
     });
   }
 
   function carregarMarcas() {
-    MarcaService.listar().then((dados) => setMarcas(dados));
+    marcaService.listar()
+      .then((dados) => setMarcas(dados));
   }
 
-  useEffect(() => carregarMarcas(), []);
+  useEffect(() => carregarMarcas());
 
   return (
     <div style={{ width: "100%" }}>

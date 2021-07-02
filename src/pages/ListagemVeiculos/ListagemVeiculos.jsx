@@ -11,20 +11,21 @@ function ListagemVeiculos() {
   const [veiculoSelecionado, setVeiculoSelecionado] = useState();
   const [veiculos, setVeiculos] = useState([]);
   const classes = useStyles();
+  const veiculoService = new VeiculoService();
 
   function alterar() {
     history.push("/alteracao-veiculo/" + veiculoSelecionado.id);
   }
 
   function excluir() {
-    VeiculoService.excluir(veiculoSelecionado).then(() => {
+    veiculoService.excluir(veiculoSelecionado).then(() => {
       setVeiculoSelecionado(null);
       carregarVeiculos();
     });
   }
 
   function carregarVeiculos() {
-    VeiculoService.listar().then((dados) => setVeiculos(dados));
+    veiculoService.listar().then((dados) => setVeiculos(dados));
   }
 
   const columns = [
@@ -34,7 +35,7 @@ function ListagemVeiculos() {
     { field: "valor", headerName: "Valor", flex: 1 },
   ];
 
-  useEffect(() => carregarVeiculos(), []);
+  useEffect(() => carregarVeiculos());
 
   return (
     <div>

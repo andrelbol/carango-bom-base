@@ -6,6 +6,7 @@ const valorNaoEhVazio = function (valor) {
 
 const valorNaoEhVazioEMaiorQueQuantidade = function (quantidade) {
   return function (valor) {
+    valor = isNaN(valor) ? valor.length : valor;
     if (!!valor && valor > quantidade) {
       return { valido: true, texto: "" };
     } else {

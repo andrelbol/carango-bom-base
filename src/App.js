@@ -1,66 +1,68 @@
-import { Container, CssBaseline, makeStyles } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
-import { ptBR } from '@material-ui/core/locale';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import CadastroMarca from './pages/CadastroMarca';
-import ListagemMarcas from './pages/ListagemMarcas';
-import Navbar from './components/Navbar';
-import ListagemVeiculos from './pages/ListagemVeiculos';
-import CadastroVeiculo from './pages/CadastroVeiculo';
-import ListagemUsuarios from './pages/ListagemUsuarios';
-import CadastroUsuario from './pages/CadastroUsuario';
-import Login from './pages/Login';
-import LoginContext from './contexts/LoginContext';
-import UsuarioService from './services/UsuarioService';
-import LoginService from './services/LoginService';
+import { Container, CssBaseline, makeStyles } from "@material-ui/core";
+import blue from "@material-ui/core/colors/blue";
+import { ptBR } from "@material-ui/core/locale";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
+import CadastroMarca from "./pages/CadastroMarca";
+import ListagemMarcas from "./pages/ListagemMarcas";
+import Navbar from "./components/Navbar";
+import ListagemVeiculos from "./pages/ListagemVeiculos";
+import CadastroVeiculo from "./pages/CadastroVeiculo";
+import ListagemUsuarios from "./pages/ListagemUsuarios";
+import CadastroUsuario from "./pages/CadastroUsuario";
+import Login from "./pages/Login";
+import LoginContext from "./contexts/LoginContext";
+import UsuarioService from "./services/UsuarioService";
+import LoginService from "./services/LoginService";
 
-const muiTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: blue[900],
-    }
+const muiTheme = createMuiTheme(
+  {
+    palette: {
+      primary: {
+        main: blue[900],
+      },
+    },
+    drawerWidth: 240,
   },
-  drawerWidth: 240
-}, ptBR);
+  ptBR
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(10)
+    padding: theme.spacing(10),
   },
 }));
 
 function App() {
-
-  const [ usuario, setUsuario ] = useState(null);
+  const [usuario, setUsuario] = useState(null);
   const classes = useStyles();
-
+  const loginService = new LoginService();
+  const usuarioService = new UsuarioService();
 
   useEffect(() => {
     const token = sessionStorage.getItem("JWTToken");
-    if(token) {
-      UsuarioService.consultar(token)
-        .then(resposta => {
-          setUsuario(resposta);
-        });
+    if (token) {
+      usuarioService.consultar(token).then((resposta) => {
+        setUsuario(resposta);
+      });
     }
-  }, []);
+  });
 
   function logout() {
     setUsuario(null);
-    LoginService.logout();
+    loginService.logout();
   }
 
   return (
@@ -70,15 +72,18 @@ function App() {
           <CssBaseline />
           <Navbar logout={logout} />
           <main className={classes.content}>
-            <Container component="article" maxWidth="md">
+            <Container component='article' maxWidth='md'>
               <Switch>
-                <Route path="/cadastro-marca">
+                <Route path='/marcas'>
+                  <ListagemMarcas></ListagemMarcas>
+                </Route>
+                <Route path='/cadastro-marca'>
                   <CadastroMarca></CadastroMarca>
                 </Route>
                 <Route path='/alteracao-marca/:id'>
                   <CadastroMarca></CadastroMarca>
                 </Route>
-                <Route path="/veiculos">
+                <Route path='/veiculos'>
                   <ListagemVeiculos></ListagemVeiculos>
                 </Route>
                 <Route path='/cadastro-veiculo'>
@@ -87,17 +92,17 @@ function App() {
                 <Route path='/alteracao-veiculo/:id'>
                   <CadastroVeiculo></CadastroVeiculo>
                 </Route>
-                <Route path="/usuarios">
+                <Route path='/usuarios'>
                   <ListagemUsuarios></ListagemUsuarios>
                 </Route>
-                <Route path="/cadastro-usuario">
+                <Route path='/cadastro-usuario'>
                   <CadastroUsuario></CadastroUsuario>
                 </Route>
-                <Route path="/login">
+                <Route path='/login'>
                   <Login></Login>
                 </Route>
-                <Route path="/">
-                  <ListagemMarcas></ListagemMarcas>
+                <Route path='/'>
+                  <ListagemVeiculos></ListagemVeiculos>
                 </Route>
               </Switch>
             </Container>

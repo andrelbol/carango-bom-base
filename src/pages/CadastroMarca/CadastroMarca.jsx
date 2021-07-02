@@ -12,6 +12,7 @@ function CadastroMarca() {
   const { id } = useParams();
   const history = useHistory();
   const classes = useStyles();
+  const marcaService = new MarcaService();
 
   const validacoes = {
     marca: valorNaoEhVazioEMaiorQueQuantidade(3),
@@ -24,7 +25,7 @@ function CadastroMarca() {
 
   useEffect(() => {
     if (id) {
-      MarcaService.consultar(id).then((m) => setMarca(m.nome));
+      marcaService.consultar(id).then((m) => setMarca(m.nome));
     }
   }, [id]);
 
@@ -34,11 +35,11 @@ function CadastroMarca() {
         event.preventDefault();
         if (possoEnviar()) {
           if (id) {
-            MarcaService.alterar({ id, nome: marca }).then((res) => {
+            marcaService.alterar({ id, nome: marca }).then((res) => {
               history.goBack();
             });
           } else {
-            MarcaService.cadastrar({ nome: marca }).then((res) => {
+            marcaService.cadastrar({ nome: marca }).then((res) => {
               setMarca("");
               history.goBack();
             });

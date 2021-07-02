@@ -1,27 +1,25 @@
-import settings from '../config/settings.dev.js';
+import settings from "../config/settings.dev.js";
+import BaseService from "./BaseService.js";
+import TokenService from './TokenService.js';
 
-const jsonHeaders = {
-  'Content-Type': 'application/json',
-};
+export default class LoginService extends BaseService {
+  constructor() {
+    super();
+    this._tokenService = new TokenService();
+  }
 
-const TOKEN_KEY = "JWTToken";
-
-const LoginService = {
   login(loginForm) {
-    return fetch(`${settings.baseUrl}/auth`, {
-      method: 'POST',
-      headers: jsonHeaders,
-      body: JSON.stringify(loginForm)
-    }).then(r => r.json())
-    .then(({ token })=> {
-      sessionStorage.setItem(TOKEN_KEY, token);
+    return this.request(
+      `${settings.baseUrl}/auth`,
+      "POST",
+      JSON.stringify(loginForm)
+    ).then(({ token }) => {
+      this._tokenService.setSessionToken(token);
       return token;
     });
-  },
+  }
 
   logout() {
-    sessionStorage.removeItem(TOKEN_KEY);
+    this._tokenService.unsetSessionToken();
   }
 }
-
-export default LoginService;
