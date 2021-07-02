@@ -4,7 +4,7 @@ const valorNaoEhVazio = function (valor) {
     : { valido: false, texto: "O campo não deve estar vazio." };
 };
 
-const valorNaoEhVazioEMaiorQueQuantidade = function (quantidade) {
+const valorNaoEhVazioENumericamenteMaiorQueQuantidade = function (quantidade) {
   return function (valor) {
     valor = isNaN(valor) ? valor.length : valor;
     if (!!valor && valor > quantidade) {
@@ -18,4 +18,17 @@ const valorNaoEhVazioEMaiorQueQuantidade = function (quantidade) {
   };
 };
 
-export { valorNaoEhVazio, valorNaoEhVazioEMaiorQueQuantidade };
+const valorNaoEhVazioETemTamanhoMaiorQueQuantidade = function (quantidade) {
+  return function (valor) {
+    if (!!valor && valor.length > quantidade) {
+      return { valido: true, texto: "" };
+    } else {
+      return {
+        valido: false,
+        texto: `O campo deve estar preenchido com um valor maior que ${quantidade}.`,
+      };
+    }
+  };
+};
+
+export { valorNaoEhVazio, valorNaoEhVazioENumericamenteMaiorQueQuantidade, valorNaoEhVazioETemTamanhoMaiorQueQuantidade };

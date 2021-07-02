@@ -6,7 +6,7 @@ import useStyles from './styles';
 import useErros from "../../hooks/useErros";
 import UsuarioService from "../../services/UsuarioService";
 import Usuario from '../../models/Usuario';
-import { valorNaoEhVazio, valorNaoEhVazioEMaiorQueQuantidade } from "../../utils/validacoes";
+import { valorNaoEhVazio, valorNaoEhVazioETemTamanhoMaiorQueQuantidade } from "../../utils/validacoes";
 
 
 function CadastroUsuario() {
@@ -22,7 +22,7 @@ function CadastroUsuario() {
 
   const validacoes = {
     nome: valorNaoEhVazio,
-    senha: valorNaoEhVazioEMaiorQueQuantidade(6),
+    senha: valorNaoEhVazioETemTamanhoMaiorQueQuantidade(6),
     confirmacaoSenha: (dado) => {
       if(dado && dado === usuario.senha){
         return {valido: true };
