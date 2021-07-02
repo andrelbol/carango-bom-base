@@ -16,7 +16,7 @@ import MarcaService from "../../services/MarcaService";
 import VeiculoService from "../../services/VeiculoService";
 import {
   valorNaoEhVazio,
-  valorNaoEhVazioEMaiorQueQuantidade,
+  valorNaoEhVazioENumericamenteMaiorQueQuantidade,
 } from "../../utils/validacoes";
 import useStyles from "./styles";
 
@@ -34,8 +34,8 @@ function CadastroVeiculo() {
   const validacoes = {
     marcaId: valorNaoEhVazio,
     modelo: valorNaoEhVazio,
-    ano: valorNaoEhVazioEMaiorQueQuantidade(0),
-    valor: valorNaoEhVazioEMaiorQueQuantidade(0),
+    ano: valorNaoEhVazioENumericamenteMaiorQueQuantidade(0),
+    valor: valorNaoEhVazioENumericamenteMaiorQueQuantidade(0),
   };
 
   const [erros, validarCampos, possoEnviar] = useErros(validacoes);

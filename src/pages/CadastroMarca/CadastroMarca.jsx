@@ -5,7 +5,7 @@ import { Button, TextField } from "@material-ui/core";
 import useErros from "../../hooks/useErros";
 import useStyles from "./styles";
 import MarcaService from "../../services/MarcaService";
-import { valorNaoEhVazioEMaiorQueQuantidade } from "../../utils/validacoes";
+import { valorNaoEhVazioETemTamanhoMaiorQueQuantidade } from "../../utils/validacoes";
 
 function CadastroMarca() {
   const [marca, setMarca] = useState("");
@@ -14,7 +14,7 @@ function CadastroMarca() {
   const classes = useStyles();
 
   const validacoes = {
-    marca: valorNaoEhVazioEMaiorQueQuantidade(3),
+    marca: valorNaoEhVazioETemTamanhoMaiorQueQuantidade(3),
   };
   const [erros, validarCampos, possoEnviar] = useErros(validacoes);
 
