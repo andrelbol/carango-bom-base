@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function CadastroUsuario() {
-  const [usuario, setUsuario] = useState(new Usuario());
+  const [usuario, setUsuario] = useState(Usuario.vazio());
   const [noEstadoInicial, setNoEstadoInicial] = useState(true);
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
 
@@ -66,7 +66,7 @@ function CadastroUsuario() {
         event.preventDefault();
         if (possoEnviar()) {
           UsuarioService.cadastrar(usuario).then((res) => {
-            setUsuario(new Usuario());
+            setUsuario(Usuario.vazio());
             history.goBack();
           });
         }

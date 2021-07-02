@@ -7,9 +7,7 @@ function useErros(validacoes) {
 
   function validarCampos(event) {
     const { name, value } = event.target;
-    const novoEstado = { ...erros };
-    novoEstado[name] = validacoes[name](value);
-    setErros(novoEstado);
+    setErros({ ...erros, [name]: validacoes[name](value) })
   }
 
   function possoEnviar() {
