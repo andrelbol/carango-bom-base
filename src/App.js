@@ -7,13 +7,13 @@ import { Route, Switch } from "react-router-dom";
 import CadastroMarca from "./pages/CadastroMarca";
 import ListagemMarcas from "./pages/ListagemMarcas";
 import Navbar from "./components/Navbar";
+import PrivateRoute from './components/PrivateRoute';
 import ListagemVeiculos from "./pages/ListagemVeiculos";
 import CadastroVeiculo from "./pages/CadastroVeiculo";
 import ListagemUsuarios from "./pages/ListagemUsuarios";
 import CadastroUsuario from "./pages/CadastroUsuario";
 import Login from "./pages/Login";
 import LoginContext from "./contexts/LoginContext";
-import UsuarioService from "./services/UsuarioService";
 import LoginService from "./services/LoginService";
 import TokenService from "./services/TokenService";
 
@@ -74,30 +74,30 @@ function App() {
           <main className={classes.content}>
             <Container component='article' maxWidth='md'>
               <Switch>
-                <Route path='/marcas'>
+                <PrivateRoute path='/marcas'>
                   <ListagemMarcas></ListagemMarcas>
-                </Route>
-                <Route path='/cadastro-marca'>
+                </PrivateRoute>
+                <PrivateRoute path='/cadastro-marca'>
                   <CadastroMarca></CadastroMarca>
-                </Route>
-                <Route path='/alteracao-marca/:id'>
+                </PrivateRoute>
+                <PrivateRoute path='/alteracao-marca/:id'>
                   <CadastroMarca></CadastroMarca>
-                </Route>
+                </PrivateRoute>
                 <Route path='/veiculos'>
                   <ListagemVeiculos></ListagemVeiculos>
                 </Route>
-                <Route path='/cadastro-veiculo'>
+                <PrivateRoute path='/cadastro-veiculo'>
                   <CadastroVeiculo></CadastroVeiculo>
-                </Route>
-                <Route path='/alteracao-veiculo/:id'>
+                </PrivateRoute>
+                <PrivateRoute path='/alteracao-veiculo/:id'>
                   <CadastroVeiculo></CadastroVeiculo>
-                </Route>
-                <Route path='/usuarios'>
+                </PrivateRoute>
+                <PrivateRoute path='/usuarios'>
                   <ListagemUsuarios></ListagemUsuarios>
-                </Route>
-                <Route path='/cadastro-usuario'>
+                </PrivateRoute>
+                <PrivateRoute path='/cadastro-usuario'>
                   <CadastroUsuario></CadastroUsuario>
-                </Route>
+                </PrivateRoute>
                 <Route path='/login'>
                   <Login></Login>
                 </Route>

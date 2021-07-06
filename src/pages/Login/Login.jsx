@@ -18,13 +18,14 @@ const Login = function (props) {
   const classes = useStyles();
   const { setUsuario } = useContext(LoginContext);
   const [loginForm, setLoginForm] = useState(Usuario.vazio());
-  const [isSessionInvalid, setIsSessionInvalid] = useState(
+  const [isLoginInvalid, setIsLoginInvalid] = useState(false);
+    const [isSessionInvalid, setIsSessionInvalid] = useState(
     new URLSearchParams(location.search).get("invalidSession")
   );
   const loginService = new LoginService();
 
   function loginIncorreto() {
-    // TODO: mostrar mensagem de erro pro usuário
+    setIsLoginInvalid(true);
     console.error("Login incorreto");
   }
 
@@ -77,6 +78,18 @@ const Login = function (props) {
         <SnackbarContent
           message='Sua sessão está expirada. Realize o login novamente'
           className={classes.snackbarWarning}
+        />
+      </Snackbar>
+
+      <Snackbar
+        open={!!isLoginInvalid}
+        onClose={() => setIsLoginInvalid(null)}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <SnackbarContent
+          message='Usuário ou senha incorretos'
+          className={classes.snackbarError}
         />
       </Snackbar>
 
