@@ -19,7 +19,7 @@ const Login = function (props) {
   const { setUsuario } = useContext(LoginContext);
   const [loginForm, setLoginForm] = useState(Usuario.vazio());
   const [isLoginInvalid, setIsLoginInvalid] = useState(false);
-    const [isSessionInvalid, setIsSessionInvalid] = useState(
+  const [isSessionInvalid, setIsSessionInvalid] = useState(
     new URLSearchParams(location.search).get("invalidSession")
   );
   const loginService = new LoginService();
@@ -37,6 +37,10 @@ const Login = function (props) {
         history.push("/veiculos");
       })
       .catch(() => loginIncorreto());
+  }
+
+  function cadastrar() {
+    history.push("/cadastro-usuario");
   }
 
   return (
@@ -93,11 +97,26 @@ const Login = function (props) {
         />
       </Snackbar>
 
-      <Button variant='contained' color='primary' size='large' onClick={login}>
+      <Button
+        variant='contained'
+        color='primary'
+        size='large'
+        onClick={login}
+      >
         Logar
+      </Button>
+
+      <Button
+        className={classes.actions}
+        variant='contained'
+        color='primary'
+        size='large'
+        onClick={cadastrar}
+      >
+        Cadastrar
       </Button>
     </>
   );
-}
+};
 
 export default Login;

@@ -57,6 +57,8 @@ function App() {
     if (token) {
       const usuario = loginService.getUsuarioLogado();
       setUsuario(usuario);
+    } else {
+      logout();
     }
   }, []);
 
@@ -95,9 +97,9 @@ function App() {
                 <PrivateRoute path='/usuarios'>
                   <ListagemUsuarios></ListagemUsuarios>
                 </PrivateRoute>
-                <PrivateRoute path='/cadastro-usuario'>
+                <Route path='/cadastro-usuario'>
                   <CadastroUsuario></CadastroUsuario>
-                </PrivateRoute>
+                </Route>
                 <Route path='/login'>
                   <Login></Login>
                 </Route>

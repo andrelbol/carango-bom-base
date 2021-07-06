@@ -24,6 +24,6 @@ export default class LoginService extends BaseService {
   }
 
   getUsuarioLogado() {
-    return this.request(`${settings.baseUrl}/auth`);
+    return this.annonymous_request(`${settings.baseUrl}/auth`);
   }
 }

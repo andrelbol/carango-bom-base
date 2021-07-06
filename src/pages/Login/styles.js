@@ -7,6 +7,10 @@ const useStyles = makeStyles(theme => ({
 
   snackbarError: {
     backgroundColor: theme.palette.error.main
+  },
+
+  actions: {
+      marginLeft: '10px',
   }
 }));
 

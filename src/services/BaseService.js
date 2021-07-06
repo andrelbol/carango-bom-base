@@ -19,6 +19,7 @@ export default class BaseService {
 
   _defaultCallback(response) {
     if(response.status == 403){
+      this._tokenService.unsetSessionToken();
       window.location.replace("/login?invalidSession=true");
     }
     return response.json();
@@ -26,7 +27,7 @@ export default class BaseService {
 
   request(url, method, body, headers, callback) {
     method = method || "GET";
-    callback = callback || this._defaultCallback;
+    callback = callback || this._defaultCallback.bind(this);
 
     let requestInfo = {
       method,
@@ -38,5 +39,10 @@ export default class BaseService {
     }
 
     return fetch(url, requestInfo).then(callback);
+  }
+
+  annonymous_request(url, method, body, headers) {
+    return this.request(url, method, body, headers,
+      response => response.json());
   }
 }
