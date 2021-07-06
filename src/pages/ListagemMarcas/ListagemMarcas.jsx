@@ -31,7 +31,7 @@ function ListagemMarcas() {
       .then((dados) => setMarcas(dados));
   }
 
-  useEffect(() => carregarMarcas());
+  useEffect(() => carregarMarcas(), []);
 
   return (
     <div style={{ width: "100%" }}>

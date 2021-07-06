@@ -32,7 +32,7 @@ function ListagemUsuarios() {
     },
   ];
 
-  useEffect(() => carregarUsuarios());
+  useEffect(() => carregarUsuarios(), []);
 
   return (
     <div>

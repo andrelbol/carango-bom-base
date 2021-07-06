@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
 import clsx from "clsx";
 import {
   List,
@@ -22,10 +23,12 @@ import {
 } from "@material-ui/icons";
 
 import useStyles from "./styles";
+import LoginContext from '../../contexts/LoginContext';
 
 const CustomDrawer =  ({ open, setOpen, logout }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const { usuario } = useContext(LoginContext);
 
   const handleDrawerClose = function() {
     setOpen(false);
@@ -56,7 +59,7 @@ const CustomDrawer =  ({ open, setOpen, logout }) => {
       </div>
       <Divider />
       <List>
-        <ListItem button component={Link} to='/login' key='Entrar'>
+        <ListItem button className={clsx({ [classes.displayNone]: !!usuario })} component={Link} to='/login' key='Entrar'>
           <ListItemIcon>
             <AccountCircle />
           </ListItemIcon>
@@ -64,6 +67,7 @@ const CustomDrawer =  ({ open, setOpen, logout }) => {
         </ListItem>
         <ListItem
           button
+          className={clsx({ [classes.displayNone]: !usuario })}
           component={Link}
           onClick={logout}
           to='/login'
@@ -81,19 +85,19 @@ const CustomDrawer =  ({ open, setOpen, logout }) => {
           </ListItemIcon>
           <ListItemText primary='Veículos' />
         </ListItem>
-        <ListItem button component={Link} to='/marcas' key='Marcas'>
+        <ListItem button className={clsx({ [classes.displayNone]: !usuario })} component={Link} to='/marcas' key='Marcas'>
           <ListItemIcon>
             <Flag/>
           </ListItemIcon>
           <ListItemText primary='Marcas' />
         </ListItem>
-        <ListItem button component={Link} to='/usuarios' key='Usuários'>
+        <ListItem button className={clsx({ [classes.displayNone]: !usuario })} component={Link} to='/usuarios' key='Usuários'>
           <ListItemIcon>
             <Group/>
           </ListItemIcon>
           <ListItemText primary='Usuários' />
         </ListItem>
-        <ListItem button component={Link} to='/dashboard' key='Dashboard'>
+        <ListItem button className={clsx({ [classes.displayNone]: !usuario })} component={Link} to='/dashboard' key='Dashboard'>
           <ListItemIcon>
             <Dashboard/>
           </ListItemIcon>

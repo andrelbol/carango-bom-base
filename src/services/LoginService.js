@@ -22,4 +22,8 @@ export default class LoginService extends BaseService {
   logout() {
     this._tokenService.unsetSessionToken();
   }
+
+  getUsuarioLogado() {
+    return this.request(`${settings.baseUrl}/auth`);
+  }
 }

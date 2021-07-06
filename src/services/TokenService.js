@@ -4,14 +4,14 @@ export default class TokenService {
   }
 
   getSessionToken() {
-    return sessionStorage.getItem(this._TOKEN_SESSION_KEY);
+    return localStorage.getItem(this._TOKEN_SESSION_KEY);
   }
 
   setSessionToken(token) {
-    return sessionStorage.setItem(this._TOKEN_SESSION_KEY, token);
+    return localStorage.setItem(this._TOKEN_SESSION_KEY, token);
   }
 
   unsetSessionToken() {
-    sessionStorage.removeItem(this._TOKEN_SESSION_KEY);
+    localStorage.removeItem(this._TOKEN_SESSION_KEY);
   }
 }

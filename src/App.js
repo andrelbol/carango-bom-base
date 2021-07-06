@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import LoginContext from "./contexts/LoginContext";
 import UsuarioService from "./services/UsuarioService";
 import LoginService from "./services/LoginService";
+import TokenService from "./services/TokenService";
 
 const muiTheme = createMuiTheme(
   {
@@ -49,14 +50,15 @@ function App() {
   const [usuario, setUsuario] = useState(null);
   const classes = useStyles();
   const loginService = new LoginService();
-  const usuarioService = new UsuarioService();
+  const tokenService = new TokenService();
 
   useEffect(() => {
-    const token = sessionStorage.getItem("JWTToken");
+    const token = tokenService.getSessionToken();
     if (token) {
-      // TODO: chamar endpoint que retorne o usuário a partirdo token e setar o usuário
+      const usuario = loginService.getUsuarioLogado();
+      setUsuario(usuario);
     }
-  });
+  }, []);
 
   function logout() {
     setUsuario(null);

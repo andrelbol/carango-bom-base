@@ -5,11 +5,14 @@ import { Box, Button } from "@material-ui/core";
 
 import VeiculoService from "../../services/VeiculoService";
 import useStyles from "./styles";
+import { useContext } from 'react';
+import LoginContext from '../../contexts/LoginContext';
 
 function ListagemVeiculos() {
   const history = useHistory();
   const [veiculoSelecionado, setVeiculoSelecionado] = useState();
   const [veiculos, setVeiculos] = useState([]);
+  const { usuario } = useContext(LoginContext);
   const classes = useStyles();
   const veiculoService = new VeiculoService();
 
@@ -35,7 +38,7 @@ function ListagemVeiculos() {
     { field: "valor", headerName: "Valor", flex: 1 },
   ];
 
-  useEffect(() => carregarVeiculos());
+  useEffect(() => carregarVeiculos(), []);
 
   return (
     <div>
@@ -52,7 +55,7 @@ function ListagemVeiculos() {
       <Box
         width={1}
         marginTop="10px"
-        display="flex"
+        display={!usuario ? "none" : "flex"}
         justifyContent="space-between"
       >
         <div>
