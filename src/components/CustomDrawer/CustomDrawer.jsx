@@ -23,7 +23,7 @@ import {
 
 import useStyles from "./styles";
 
-export default ({ open, setOpen, logout }) => {
+const CustomDrawer =  ({ open, setOpen, logout }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -103,3 +103,5 @@ export default ({ open, setOpen, logout }) => {
     </Drawer>
   );
 };
+
+export default CustomDrawer;

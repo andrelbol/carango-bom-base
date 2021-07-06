@@ -11,16 +11,17 @@ function ListagemUsuarios() {
   const [usuarioSelecionado, setUsuarioSelecionado] = useState();
   const [usuarios, setUsuarios] = useState([]);
   const classes = useStyles();
+  const usuarioService = new UsuarioService();
   
   function excluir() {
-    UsuarioService.excluir(usuarioSelecionado).then(() => {
+    usuarioService.excluir(usuarioSelecionado).then(() => {
       setUsuarioSelecionado(null);
       carregarUsuarios();
     });
   }
   
   function carregarUsuarios() {
-    UsuarioService.listar().then((dados) => setUsuarios(dados));
+    usuarioService.listar().then((dados) => setUsuarios(dados));
   }
   
   const columns = [
@@ -31,7 +32,7 @@ function ListagemUsuarios() {
     },
   ];
 
-  useEffect(() => carregarUsuarios(), []);
+  useEffect(() => carregarUsuarios());
 
   return (
     <div>

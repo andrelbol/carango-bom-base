@@ -1,6 +1,6 @@
 import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 
 import useStyles from './styles';
 import useErros from "../../hooks/useErros";
@@ -16,9 +16,9 @@ function CadastroUsuario() {
 
   const history = useHistory();
 
-  const { id } = useParams();
-
   const classes = useStyles();
+
+  const usuarioService = new UsuarioService();
 
   const validacoes = {
     nome: valorNaoEhVazio,
@@ -48,7 +48,7 @@ function CadastroUsuario() {
       onSubmit={(event) => {
         event.preventDefault();
         if (possoEnviar()) {
-          UsuarioService.cadastrar(usuario).then((res) => {
+          usuarioService.cadastrar(usuario).then((res) => {
             setUsuario(Usuario.vazio());
             history.goBack();
           });

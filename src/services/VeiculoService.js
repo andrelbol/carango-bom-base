@@ -1,39 +1,29 @@
 import settings from "../config/settings.dev.js";
+import BaseService from './BaseService.js';
 
-const jsonHeaders = {
-  "Content-Type": "application/json",
-};
-
-const VeiculoService = {
+export default class VeiculoService extends BaseService {
   cadastrar(veiculo) {
-    return fetch(`${settings.baseUrl}/veiculos`, {
-      method: "POST",
-      headers: jsonHeaders,
-      body: JSON.stringify(veiculo),
-    }).then((r) => r.json());
-  },
+    return this.request(`${settings.baseUrl}/veiculos`,
+      "POST",
+      JSON.stringify(veiculo));
+  }
 
   alterar(veiculo) {
-    return fetch(`${settings.baseUrl}/veiculos/${veiculo.id}`, {
-      method: "PUT",
-      headers: jsonHeaders,
-      body: JSON.stringify(veiculo),
-    }).then((r) => r.json());
-  },
+    return this.request(`${settings.baseUrl}/veiculos/${veiculo.id}`,
+      "PUT",
+      JSON.stringify(veiculo));
+  }
 
   consultar(id) {
-    return fetch(`${settings.baseUrl}/veiculos/${id}`).then((r) => r.json());
-  },
+    return this.request(`${settings.baseUrl}/veiculos/${id}`);
+  }
 
   listar() {
-    return fetch(`${settings.baseUrl}/veiculos`).then((r) => r.json());
-  },
+    return this.request(`${settings.baseUrl}/veiculos`)
+  }
 
   excluir(veiculo) {
-    return fetch(`${settings.baseUrl}/veiculos/${veiculo.id}`, {
-      method: "DELETE",
-    });
-  },
-};
-
-export default VeiculoService;
+    return this.request(`${settings.baseUrl}/veiculos/${veiculo.id}`,
+      "DELETE", null, {}, () => {});
+  }
+}
