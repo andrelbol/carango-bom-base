@@ -54,9 +54,7 @@ function App() {
   useEffect(() => {
     const token = sessionStorage.getItem("JWTToken");
     if (token) {
-      usuarioService.consultar(token).then((resposta) => {
-        setUsuario(resposta);
-      });
+      // TODO: chamar endpoint que retorne o usuário a partirdo token e setar o usuário
     }
   });
 

@@ -18,22 +18,15 @@ export default class BaseService {
   }
 
   _defaultCallback(response) {
+    if(response.status == 403){
+      window.location.replace("/login?invalidSession=true");
+    }
     return response.json();
   }
 
-  _defaultFallback(response) {
-    if (response.status === 403) {
-      this._tokenService.unsetSessionToken();
-      window.location.replace("/login?invalidSession=true");
-    } else {
-      throw response;
-    }
-  }
-
-  request(url, method, body, headers, callback, fallback) {
+  request(url, method, body, headers, callback) {
     method = method || "GET";
     callback = callback || this._defaultCallback;
-    fallback = fallback || this._defaultFallback;
 
     let requestInfo = {
       method,
@@ -44,6 +37,6 @@ export default class BaseService {
       requestInfo = { ...requestInfo, body };
     }
 
-    return fetch(url, requestInfo).then(callback).catch(fallback);
+    return fetch(url, requestInfo).then(callback);
   }
 }
