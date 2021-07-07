@@ -11,10 +11,13 @@ import { Menu } from "@material-ui/icons";
 
 import CustomDrawer from "../CustomDrawer";
 import useStyles from "./style";
+import { useContext } from 'react';
+import LoginContext from '../../contexts/LoginContext';
 
 export default function MiniDrawer({ logout }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const { usuario } = useContext(LoginContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -42,7 +45,7 @@ export default function MiniDrawer({ logout }) {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Carango Bom
+            Carango Bom { !!usuario && `- Olá ${usuario.nome}`}
           </Typography>
         </Toolbar>
       </AppBar>

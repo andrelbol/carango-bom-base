@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import LoginContext from "./contexts/LoginContext";
 import LoginService from "./services/LoginService";
 import TokenService from "./services/TokenService";
+import Dashboard from './pages/Dashboard';
 
 const muiTheme = createMuiTheme(
   {
@@ -100,6 +101,9 @@ function App() {
                 <Route path='/cadastro-usuario'>
                   <CadastroUsuario></CadastroUsuario>
                 </Route>
+                <PrivateRoute path='/dashboard'>
+                  <Dashboard></Dashboard>
+                </PrivateRoute>
                 <Route path='/login'>
                   <Login></Login>
                 </Route>
