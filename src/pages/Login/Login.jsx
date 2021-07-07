@@ -11,6 +11,8 @@ import LoginService from "../../services/LoginService";
 import LoginContext from "../../contexts/LoginContext";
 import Usuario from "../../models/Usuario";
 import useStyles from "./styles";
+import { useEffect } from 'react';
+import SnackbarContext from '../../contexts/SnackbarContext';
 
 const Login = function (props) {
   const location = useLocation();
@@ -18,15 +20,11 @@ const Login = function (props) {
   const classes = useStyles();
   const { setUsuario } = useContext(LoginContext);
   const [loginForm, setLoginForm] = useState(Usuario.vazio());
-  const [isLoginInvalid, setIsLoginInvalid] = useState(false);
-  const [isSessionInvalid, setIsSessionInvalid] = useState(
-    new URLSearchParams(location.search).get("invalidSession")
-  );
+  const { mostraSnackbar } = useContext(SnackbarContext);
   const loginService = new LoginService();
 
   function loginIncorreto() {
-    setIsLoginInvalid(true);
-    console.error("Login incorreto");
+    mostraSnackbar('error', 'Nome ou senha estão incorretos');
   }
 
   function login() {
@@ -42,6 +40,13 @@ const Login = function (props) {
   function cadastrar() {
     history.push("/cadastro-usuario");
   }
+
+  useEffect(() => {
+    const isSessionInvalid = new URLSearchParams(location.search).get("invalidSession");
+    if(isSessionInvalid){
+      mostraSnackbar('warning', 'Sua sessão está expirada. Realize o login novamente');
+    }
+  }, [])
 
   return (
     <>
@@ -72,30 +77,6 @@ const Login = function (props) {
         fullWidth
         margin='normal'
       />
-
-      <Snackbar
-        open={!!isSessionInvalid}
-        onClose={() => setIsSessionInvalid(null)}
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <SnackbarContent
-          message='Sua sessão está expirada. Realize o login novamente'
-          className={classes.snackbarWarning}
-        />
-      </Snackbar>
-
-      <Snackbar
-        open={!!isLoginInvalid}
-        onClose={() => setIsLoginInvalid(null)}
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <SnackbarContent
-          message='Usuário ou senha incorretos'
-          className={classes.snackbarError}
-        />
-      </Snackbar>
 
       <Button
         variant='contained'

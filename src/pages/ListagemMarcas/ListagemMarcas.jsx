@@ -5,6 +5,8 @@ import { DataGrid } from "@material-ui/data-grid";
 
 import MarcaService from "../../services/MarcaService";
 import useStyles from "./styles";
+import { useContext } from 'react';
+import SnackbarContext from '../../contexts/SnackbarContext';
 
 const colunas = [{ field: "nome", headerName: "Marca", width: 200 }];
 
@@ -14,15 +16,23 @@ function ListagemMarcas() {
   const classes = useStyles();
   const history = useHistory();
   const marcaService = new MarcaService();
+  const { mostraSnackbar } = useContext(SnackbarContext)
 
   function alterar() {
     history.push("/alteracao-marca/" + marcaSelecionada.id);
   }
 
   function excluir() {
-    marcaService.excluir(marcaSelecionada).then(() => {
+    marcaService.excluir(marcaSelecionada)
+      .then(() => {
       setMarcaSelecionada(null);
       carregarMarcas();
+    }).catch(error => {
+      if(error.status === 409){
+        mostraSnackbar('error', error.texto);
+      } else {
+        throw error;
+      }
     });
   }
 
