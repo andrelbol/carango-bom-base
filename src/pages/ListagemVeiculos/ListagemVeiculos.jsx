@@ -1,36 +1,34 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { Box, Button, makeStyles } from "@material-ui/core";
-import { useHistory } from "react-router";
 import React, { useEffect, useState } from "react";
-import VeiculoService from "../services/VeiculoService";
+import { useHistory } from "react-router";
+import { Box, Button } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import VeiculoService from "../../services/VeiculoService";
+import useStyles from "./styles";
+import { useContext } from 'react';
+import LoginContext from '../../contexts/LoginContext';
 
 function ListagemVeiculos() {
   const history = useHistory();
   const [veiculoSelecionado, setVeiculoSelecionado] = useState();
   const [veiculos, setVeiculos] = useState([]);
+  const { usuario } = useContext(LoginContext);
   const classes = useStyles();
-
-  useEffect(() => carregarVeiculos(), []);
+  const veiculoService = new VeiculoService();
 
   function alterar() {
     history.push("/alteracao-veiculo/" + veiculoSelecionado.id);
   }
 
   function excluir() {
-    VeiculoService.excluir(veiculoSelecionado).then(() => {
+    veiculoService.excluir(veiculoSelecionado).then(() => {
       setVeiculoSelecionado(null);
       carregarVeiculos();
     });
   }
 
   function carregarVeiculos() {
-    VeiculoService.listar().then((dados) => setVeiculos(dados));
+    veiculoService.listar().then((dados) => setVeiculos(dados));
   }
 
   const columns = [
@@ -39,6 +37,8 @@ function ListagemVeiculos() {
     { field: "ano", headerName: "Ano", flex: 1 },
     { field: "valor", headerName: "Valor", flex: 1 },
   ];
+
+  useEffect(() => carregarVeiculos(), []);
 
   return (
     <div>
@@ -55,7 +55,7 @@ function ListagemVeiculos() {
       <Box
         width={1}
         marginTop="10px"
-        display="flex"
+        display={!usuario ? "none" : "flex"}
         justifyContent="space-between"
       >
         <div>

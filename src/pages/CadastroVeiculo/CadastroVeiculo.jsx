@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import {
   Button,
-  makeStyles,
   TextField,
   FormControl,
   InputLabel,
@@ -8,18 +9,16 @@ import {
   MenuItem,
   FormHelperText,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
-import useErros from "../hooks/useErros";
-import Veiculo from "../models/Veiculo";
-import MarcaService from "../services/MarcaService";
-import VeiculoService from "../services/VeiculoService";
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import useErros from "../../hooks/useErros";
+import Veiculo from "../../models/Veiculo";
+import MarcaService from "../../services/MarcaService";
+import VeiculoService from "../../services/VeiculoService";
+import {
+  valorNaoEhVazio,
+  valorNaoEhVazioENumericamenteMaiorQueQuantidade,
+} from "../../utils/validacoes";
+import useStyles from "./styles";
 
 function CadastroVeiculo() {
   const [veiculo, setVeiculo] = useState(Veiculo.vazio());
@@ -32,28 +31,14 @@ function CadastroVeiculo() {
 
   const classes = useStyles();
 
-  const valorNaoEhVazio = (valor) => {
-    return !!valor
-      ? { valido: true, texto: "" }
-      : { valido: false, texto: "O campo não deve estar vazio." };
-  };
-
-  const valorNaoEhVazioEMaiorQueZero = (valor) => {
-    if (!!valor && valor > 0) {
-      return { valido: true, texto: "" };
-    } else {
-      return {
-        valido: false,
-        texto: "O campo deve estar preenchido com um valor maior que 0.",
-      };
-    }
-  };
+  const marcaService = new MarcaService();
+  const veiculoService = new VeiculoService();
 
   const validacoes = {
     marcaId: valorNaoEhVazio,
     modelo: valorNaoEhVazio,
-    ano: valorNaoEhVazioEMaiorQueZero,
-    valor: valorNaoEhVazioEMaiorQueZero,
+    ano: valorNaoEhVazioENumericamenteMaiorQueQuantidade(0),
+    valor: valorNaoEhVazioENumericamenteMaiorQueQuantidade(0),
   };
 
   const [erros, validarCampos, possoEnviar] = useErros(validacoes);
@@ -69,11 +54,11 @@ function CadastroVeiculo() {
 
   useEffect(() => {
     if (id) {
-      VeiculoService.consultar(id).then((v) => setVeiculo(v));
+      veiculoService.consultar(id).then((v) => setVeiculo(v));
       setNoEstadoInicial(false);
     }
 
-    MarcaService.listar().then((listaMarcas) => setMarcas(listaMarcas));
+    marcaService.listar().then((listaMarcas) => setMarcas(listaMarcas));
   }, [id]);
 
   return (
@@ -82,11 +67,11 @@ function CadastroVeiculo() {
         event.preventDefault();
         if (possoEnviar()) {
           if (id) {
-            VeiculoService.alterar(veiculo).then((res) => {
+            veiculoService.alterar(veiculo).then((res) => {
               history.goBack();
             });
           } else {
-            VeiculoService.cadastrar(veiculo).then((res) => {
+            veiculoService.cadastrar(veiculo).then((res) => {
               setVeiculo(Veiculo.vazio());
               history.goBack();
             });
