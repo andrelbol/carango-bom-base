@@ -5,8 +5,9 @@ import { Box, Button } from "@material-ui/core";
 
 import VeiculoService from "../../services/VeiculoService";
 import useStyles from "./styles";
-import { useContext } from 'react';
-import LoginContext from '../../contexts/LoginContext';
+import { useContext } from "react";
+import LoginContext from "../../contexts/LoginContext";
+import { valorComVirgula } from "../../utils/numberUtils";
 
 function ListagemVeiculos() {
   const history = useHistory();
@@ -35,7 +36,12 @@ function ListagemVeiculos() {
     { field: "marca", headerName: "Marca", flex: 1 },
     { field: "modelo", headerName: "Modelo", flex: 1 },
     { field: "ano", headerName: "Ano", flex: 1 },
-    { field: "valor", headerName: "Valor", flex: 1 },
+    {
+      field: "valor",
+      headerName: "Valor",
+      flex: 1,
+      valueFormatter: (params) => valorComVirgula(params.value),
+    },
   ];
 
   useEffect(() => carregarVeiculos(), []);
@@ -54,14 +60,14 @@ function ListagemVeiculos() {
 
       <Box
         width={1}
-        marginTop="10px"
+        marginTop='10px'
         display={!usuario ? "none" : "flex"}
-        justifyContent="space-between"
+        justifyContent='space-between'
       >
         <div>
           <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             onClick={() => history.push("/cadastro-veiculo")}
           >
             Adicionar
@@ -70,8 +76,8 @@ function ListagemVeiculos() {
         <div className={classes.actionsToolbar}>
           <Button
             className={classes.actions}
-            variant="contained"
-            color="secondary"
+            variant='contained'
+            color='secondary'
             disabled={!veiculoSelecionado}
             onClick={() => excluir()}
           >
@@ -79,8 +85,8 @@ function ListagemVeiculos() {
           </Button>
           <Button
             className={classes.actions}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             disabled={!veiculoSelecionado}
             onClick={() => alterar()}
           >

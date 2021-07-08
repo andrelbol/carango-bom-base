@@ -32,7 +32,11 @@ export default class MarcaService extends BaseService {
       "DELETE",
       null,
       {},
-      () => {}
+      response => {
+        if(response.status === 409){
+          throw new Error({ texto: "Marca possui veículo(s) associado(s).", status: response.status });
+        }
+      }
     );
   }
 }
