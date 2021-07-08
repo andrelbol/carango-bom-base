@@ -1,4 +1,4 @@
-import settings from "../config/settings.dev.js";
+import settings from "../config/settings";
 import BaseService from "./BaseService.js";
 
 export default class MarcaService extends BaseService {

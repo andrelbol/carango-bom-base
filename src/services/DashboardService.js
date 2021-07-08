@@ -1,5 +1,5 @@
 import BaseService from './BaseService';
-import settings from '../config/settings.dev';
+import settings from '../config/settings';
 
 
 class DashboardService extends BaseService {
