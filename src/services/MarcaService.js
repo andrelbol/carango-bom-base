@@ -1,40 +1,42 @@
-import settings from '../config/settings.js';
+import settings from "../config/settings";
+import BaseService from "./BaseService.js";
 
-const jsonHeaders = {
-  'Content-Type': 'application/json',
-};
-
-const MarcaService = {
+export default class MarcaService extends BaseService {
   cadastrar(marca) {
-    return fetch(`${settings.baseUrl}/marcas`, {
-      method: 'POST',
-      headers: jsonHeaders,
-      body: JSON.stringify(marca)
-    }).then(r => r.json());
-  },
+    return this.request(
+      `${settings.baseUrl}/marcas`,
+      "POST",
+      JSON.stringify(marca)
+    );
+  }
 
   alterar(marca) {
-    return fetch(`${settings.baseUrl}/marcas/${marca.id}`, {
-      method: 'PUT',
-      headers: jsonHeaders,
-      body: JSON.stringify(marca)
-    }).then(r => r.json());
-  },
+    return this.request(
+      `${settings.baseUrl}/marcas/${marca.id}`,
+      "PUT",
+      JSON.stringify(marca)
+    );
+  }
 
   consultar(id) {
-    return fetch(`${settings.baseUrl}/marcas/${id}`).then(r => r.json());
-  },
+    return this.request(`${settings.baseUrl}/marcas/${id}`);
+  }
 
   listar() {
-    return fetch(`${settings.baseUrl}/marcas`).then(r => r.json());
-  },
+    return this.request(`${settings.baseUrl}/marcas`);
+  }
 
   excluir(marca) {
-    return fetch(`${settings.baseUrl}/marcas/${marca.id}`, {
-      method: 'DELETE',
-    })
-      .then(r => r.json());
+    return this.request(
+      `${settings.baseUrl}/marcas/${marca.id}`,
+      "DELETE",
+      null,
+      {},
+      response => {
+        if(response.status === 409){
+          throw new Error({ texto: "Marca possui veículo(s) associado(s).", status: response.status });
+        }
+      }
+    );
   }
-};
-
-export default MarcaService;
+}

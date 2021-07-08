@@ -1,44 +1,50 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { Box, Button, makeStyles } from "@material-ui/core";
-import { useHistory } from "react-router";
 import React, { useEffect, useState } from "react";
-import VeiculoService from "../services/VeiculoService";
+import { useHistory } from "react-router";
+import { Box, Button } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  actions: {
-    marginLeft: "10px",
-  },
-}));
+import VeiculoService from "../../services/VeiculoService";
+import useStyles from "./styles";
+import { useContext } from "react";
+import LoginContext from "../../contexts/LoginContext";
+import { valorComVirgula } from "../../utils/numberUtils";
 
 function ListagemVeiculos() {
   const history = useHistory();
   const [veiculoSelecionado, setVeiculoSelecionado] = useState();
   const [veiculos, setVeiculos] = useState([]);
+  const { usuario } = useContext(LoginContext);
   const classes = useStyles();
-
-  useEffect(() => carregarVeiculos(), []);
+  const veiculoService = new VeiculoService();
 
   function alterar() {
     history.push("/alteracao-veiculo/" + veiculoSelecionado.id);
   }
 
   function excluir() {
-    VeiculoService.excluir(veiculoSelecionado).then(() => {
+    veiculoService.excluir(veiculoSelecionado).then(() => {
       setVeiculoSelecionado(null);
       carregarVeiculos();
     });
   }
 
   function carregarVeiculos() {
-    VeiculoService.listar().then((dados) => setVeiculos(dados));
+    veiculoService.listar().then((dados) => setVeiculos(dados));
   }
 
   const columns = [
     { field: "marca", headerName: "Marca", flex: 1 },
     { field: "modelo", headerName: "Modelo", flex: 1 },
     { field: "ano", headerName: "Ano", flex: 1 },
-    { field: "valor", headerName: "Valor", flex: 1 },
+    {
+      field: "valor",
+      headerName: "Valor",
+      flex: 1,
+      valueFormatter: (params) => valorComVirgula(params.value),
+    },
   ];
+
+  useEffect(() => carregarVeiculos(), []);
 
   return (
     <div>
@@ -54,14 +60,14 @@ function ListagemVeiculos() {
 
       <Box
         width={1}
-        marginTop="10px"
-        display="flex"
-        justifyContent="space-between"
+        marginTop='10px'
+        display={!usuario ? "none" : "flex"}
+        justifyContent='space-between'
       >
         <div>
           <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             onClick={() => history.push("/cadastro-veiculo")}
           >
             Adicionar
@@ -70,8 +76,8 @@ function ListagemVeiculos() {
         <div className={classes.actionsToolbar}>
           <Button
             className={classes.actions}
-            variant="contained"
-            color="secondary"
+            variant='contained'
+            color='secondary'
             disabled={!veiculoSelecionado}
             onClick={() => excluir()}
           >
@@ -79,8 +85,8 @@ function ListagemVeiculos() {
           </Button>
           <Button
             className={classes.actions}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             disabled={!veiculoSelecionado}
             onClick={() => alterar()}
           >

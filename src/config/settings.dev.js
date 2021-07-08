@@ -1,3 +1,5 @@
-export default {
-  baseUrl: 'https://carango-bom-api.herokuapp.com'
+const settings = {
+  baseUrl: "http://localhost:8080"
 }
+
+export default settings;
