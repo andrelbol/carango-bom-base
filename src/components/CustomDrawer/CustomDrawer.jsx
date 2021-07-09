@@ -63,7 +63,7 @@ const CustomDrawer =  ({ open, setOpen, logout }) => {
           <ListItemIcon>
             <AccountCircle />
           </ListItemIcon>
-          <ListItemText className={clsx({ [classes.displayNone]: !!usuario })} primary='Entrar' data-testid="opcao-entrar"/>
+          <ListItemText primary='Entrar'/>
         </ListItem>
         <ListItem
           button
