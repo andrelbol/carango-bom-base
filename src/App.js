@@ -48,8 +48,8 @@ function App() {
     console.log("Testando tela de app.js");
     const token = tokenService.getSessionToken();
     if (token) {
-      const usuario = loginService.getUsuarioLogado();
-      setUsuario(usuario);
+      loginService.getUsuarioLogado()
+        .then(usuario => setUsuario(usuario));
     } else {
       logout();
     }
