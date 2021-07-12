@@ -31,6 +31,7 @@ function CadastroMarca() {
 
   return (
     <form
+      data-testid="formulario-cadastro-marca"
       onSubmit={(event) => {
         event.preventDefault();
         if (possoEnviar()) {
