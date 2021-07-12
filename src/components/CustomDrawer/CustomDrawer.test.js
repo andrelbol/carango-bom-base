@@ -27,12 +27,33 @@ test("O componente CustomDrawer deve mostrar opções se o usuário estiver loga
   const opcaoVeiculos = screen.getByText("Veículos");
   const opcaoDashboard = screen.getByText("Dashboard");
   const opcaoLogout = screen.getByText("Sair");
+  const opcaoLogin = screen.queryByText("Entrar");
 
   expect(opcaoMarcas).toBeInTheDocument();
   expect(opcaoUsuarios).toBeInTheDocument();
   expect(opcaoVeiculos).toBeInTheDocument();
   expect(opcaoDashboard).toBeInTheDocument();
   expect(opcaoLogout).toBeInTheDocument();
+  expect(opcaoLogin).not.toBeInTheDocument();
+});
+
+test("O componente CustomDrawer deve mostrar opções se o usuário não estiver logado", () => {
+  const USUARIO = null;
+
+  renderWithProvider(USUARIO);
+  const opcaoMarcas = screen.queryByText("Marcas");
+  const opcaoUsuarios = screen.queryByText("Usuários");
+  const opcaoVeiculos = screen.getByText("Veículos");
+  const opcaoDashboard = screen.queryByText("Dashboard");
+  const opcaoLogout = screen.queryByText("Sair");
+  const opcaoLogin = screen.getByText("Entrar");
+
+  expect(opcaoMarcas).not.toBeInTheDocument();
+  expect(opcaoUsuarios).not.toBeInTheDocument();
+  expect(opcaoVeiculos).toBeInTheDocument();
+  expect(opcaoDashboard).not.toBeInTheDocument();
+  expect(opcaoLogout).not.toBeInTheDocument();
+  expect(opcaoLogin).toBeInTheDocument();
 });
 
 test("O componente CustomDrawer deve redirecionar para rotas corretas", () => {
