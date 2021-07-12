@@ -6,7 +6,7 @@ import Dashboard from "./Dashboard";
 import { createMemoryHistory } from "history";
 import DashboardService from "../../services/DashboardService";
 
-jest.mock("../../services/dashBoardService");
+jest.mock("../../services/DashboardService");
 
 function renderWithProvider() {
     const history = createMemoryHistory();
