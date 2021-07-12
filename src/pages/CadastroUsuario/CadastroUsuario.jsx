@@ -45,6 +45,7 @@ function CadastroUsuario() {
 
   return (
     <form
+      data-testid='form'
       onSubmit={(event) => {
         event.preventDefault();
         if (possoEnviar()) {
