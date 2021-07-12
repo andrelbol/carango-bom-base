@@ -5,7 +5,7 @@ import {
   render,
   screen,
   act,
-  getAllByRole,
+  waitFor,
 } from "@testing-library/react";
 import ListagemMarcas from "./ListagemMarcas";
 import SnackbarContext from "../../contexts/SnackbarContext";
@@ -125,34 +125,30 @@ test("A página listagem marcas deve trocar para a rota de cadastro ao clicar em
   expect(history.location.pathname).toBe("/cadastro-marca");
 });
 
-// test("A página listagem marcas deve mostrar um snackbar de erro caso ocorra problema de conflito no backend na exclusao", async () => {
-  
-//   let marcas = [{ id: 1, nome: "Primeira" }];
-//   const MENSAGEM_ERRO = "Mensagem erro";
-//   const ERRO = { status: 409, texto: MENSAGEM_ERRO };
+test("A página listagem marcas deve mostrar um snackbar de erro caso ocorra problema de conflito no backend na exclusao", async () => {
+  let marcas = [{ id: 1, nome: "Primeira" }];
+  const MENSAGEM_ERRO = "Mensagem erro";
+  const ERRO = { status: 409, texto: MENSAGEM_ERRO };
 
-//   let MARCAS_PROMISE = Promise.resolve(marcas);
-//   const ERRO_EXCLUSAO_PROMISE = Promise.reject(ERRO);
-//   MarcaService.mockImplementation(() => {
-//     return {
-//       listar: () => MARCAS_PROMISE,
-//       excluir: () => ERRO_EXCLUSAO_PROMISE,
-//     };
-//   });
+  let MARCAS_PROMISE = Promise.resolve(marcas);
+  MarcaService.mockImplementation(() => {
+    return {
+      listar: () => MARCAS_PROMISE,
+      excluir: () => Promise.reject(ERRO),
+    };
+  });
 
-//   renderWithProvider();
-//   await act(() => MARCAS_PROMISE);
+  renderWithProvider();
+  await act(() => MARCAS_PROMISE);
 
-//   const primeiraLinha = screen.getAllByRole("row")[1];
-//   const botaoExcluir = screen.getByRole("button", { name: "Excluir" });
+  const primeiraLinha = screen.getAllByRole("row")[1];
+  const botaoExcluir = screen.getByRole("button", { name: "Excluir" });
 
-//   fireEvent.click(primeiraLinha);
-//   fireEvent.click(botaoExcluir);
-//   await act(() => ERRO_EXCLUSAO_PROMISE);
+  fireEvent.click(primeiraLinha);
+  fireEvent.click(botaoExcluir);
 
+  const linhas = screen.getAllByRole("row");
 
-//   const linhas = screen.getAllByRole("row");
-
-//   expect(linhas).toHaveLength(2);
-//   expect(mostraSnackbar).toHaveBeenCalled();
-// });
+  expect(linhas).toHaveLength(2);
+  await waitFor(() => expect(mostraSnackbar).toHaveBeenCalledTimes(1));
+});
